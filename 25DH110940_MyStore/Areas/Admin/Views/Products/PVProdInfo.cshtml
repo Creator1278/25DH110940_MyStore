@@ -1,0 +1,37 @@
+﻿@model _25DH110940_MyStore.Models.Product
+
+<head>
+    <style>
+        img {
+            height: 150px;
+            max-width: 100px;
+        }
+    </style>
+</head>
+
+<div class="container-fluid">
+    <div class="div-horizontal">
+        <div class="col-md-3">
+            <img src="@Html.DisplayFor(model => model.ProductImage)" />
+        </div>
+        <div class="col-md-9">
+            <dl>
+                <dt> Ten San Pham </dt>
+
+                <dd> @Html.DisplayFor(model => model.ProductName) </dd>
+
+                <dt> Don gia </dt>
+
+                <dd> @Html.DisplayFor(model => model.ProductPrice)</dd>
+
+                <dt> Mo ta</dt>
+
+                <dd> @Html.DisplayFor(model => model.ProductDescription) </dd>
+
+                <dt> Danh muc </dt>
+
+                <dd> @Html.DisplayFor(model => model.Category.CategoryName) </dd>
+            </dl>
+        </div>
+    </div>
+</div>
