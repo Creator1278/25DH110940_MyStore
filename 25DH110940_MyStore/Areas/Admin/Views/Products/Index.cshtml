@@ -1,66 +1,71 @@
-﻿@model IEnumerable<_25DH110940_MyStore.Models.Product>
+﻿@model _25DH110940_MyStore.Models.ViewModel.ProductionSearchVM
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Search Product";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+<html>
 <head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Search</title>
     <style>
-        img {
-            height: 150px;
-            max-width: 100px;
+        .search-container, .order-container {
+            padding-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
+       
     </style>
 </head>
+<body>
+    <!-- Form tim kiem -->
+    @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+            {
+                <div class="form-group search-container">
+                    @Html.TextBoxFor(m => m.SearchTerm, new
+               {
+                   @class = "form-control",
+                   placeholder = "Nhap ten, mo ta chung loai san pham"
+               })
+                    @* bo sung them trg tim kiem theo khoang gia *@
+                    @Html.TextBoxFor(m => m.MinPrice, new
+{
+@class = "form-control",
+ placeholder = "Nhap gia toi thieu",
+ type = "number",
+})
+                    @Html.TextBoxFor(m => m.MaxPrice, new
+               {
+                   @class = "form-control",
+                     placeholder = "Nhap gia toi da",
+                     type = "number",
+               })
+                    <button type="submit" class="btn btn-primary">Tim kiem</button>
+                </div>
 
-<h2 class="bg-success">DANH SACH SAN PHAM</h2>
-
-
-<table class="table bg-info container-fluid">
-    <tr>
-        <th class="bg-success col-md-2">
-            Hinh Anh
-        </th>
-        <th class="bg-success col-md-3">
-            Ten San Pham
-        </th>
-        <th class="bg-success col-md-1">
-            Don Gia
-        </th>
-
-        <th class="bg-success col-md-2">
-            Danh Muc
-        </th>
-        <th class="bg-success col-md-4"></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <img src="@Html.DisplayFor(modelItem => item.ProductImage)" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                @Html.ActionLink("Sua", "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
-                @Html.ActionLink("Chi tiet", "Details", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
-                @Html.ActionLink("Xoa", "Delete", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
-            </td>
-        </tr>
-    }
-
-</table>
-
-<div class="form-group">
-    <div class="col-md-offset-8 col-md-4">
-        @Html.ActionLink("Them moi", "Create", null, new { @class = "btn btn-primary" })
-    </div>
+      <!--Tuy chon sap xxep-->
+<div class="form-group order-container">
+    Sap xep theo:
+     @Html.ActionLink("Ten tang dan", "Index",
+    new { orderBy = "name_asc", searchTerm = Model.SearchTerm,minPrice = Model.MinPrice, maxPrice= Model.MaxPrice }, null)
+    |
+    @Html.ActionLink("Ten giam dan", "Index",
+    new { orderBy = "name_desc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice }, null)
+    |
+    @Html.ActionLink("Gia tang dan", "Index",
+    new { orderBy = "price_asc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice }, null)
+    |
+    @Html.ActionLink("Gia giam dan", "Index",
+    new { orderBy = "price_desc", searchTerm = Model.SearchTerm, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice }, null)
 </div>
+            }
+
+    @* Form ket qua tim kiem *@
+    @Html.Partial("PVListProduct",Model)
+</body>
+</html>
+
+
+
